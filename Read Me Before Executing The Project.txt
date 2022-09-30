@@ -1,4 +1,0 @@
-I changed only two things.First, I added Scrollview inside it I put Linear Layout.
-In order to make visible the app during rotate I had to add the scrollview.
-Secondly,I changed the passwords text type as password type in order to prevent
-the users password  from others when they enter.

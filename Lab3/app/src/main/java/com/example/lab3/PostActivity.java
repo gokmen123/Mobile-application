@@ -20,13 +20,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class PostActivity extends AppCompatActivity {
-    ImageView img;
-    EditText txtMsg = (EditText) findViewById(R.id.txtmessage);
-    ImageButton btnOk=(ImageButton) findViewById(R.id.btnOk);
-    ImageButton btnCancel=(ImageButton) findViewById(R.id.btnCancel);
+    ImageView img =(ImageView) findViewById(R.id.imageView2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        EditText txtMsg = (EditText) findViewById(R.id.txtmessage);
+        ImageButton btnOk=(ImageButton) findViewById(R.id.btnOk);
+        ImageButton btnCancel=(ImageButton) findViewById(R.id.btnCancel);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         final ActivityResultLauncher<Intent> launcher= registerForActivityResult(
@@ -42,7 +43,7 @@ public class PostActivity extends AppCompatActivity {
                     }
                 }
         );
-        img =(ImageView) findViewById(R.id.imageView2);
+
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +63,13 @@ public class PostActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -72,13 +80,7 @@ public class PostActivity extends AppCompatActivity {
             Bitmap image = (Bitmap) bundle.get("data");
             img.setImageBitmap(image);
         }
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
-        });
+
     }
 
 

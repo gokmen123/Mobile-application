@@ -144,4 +144,34 @@ public class MainActivity extends AppCompatActivity {
         Bitmap b = Bitmap.createScaledBitmap(image, W, H, false);
         return b;
     }
+    class DowloadRunnable implements Runnable{ // better than async
+        String url;
+
+        public DowloadRunnable(String url) {
+            this.url = url;
+        }
+
+        @Override
+        public void run() {
+            String fileName = "temp.jpg";
+            String imagePath = (Environment.getExternalStoragePublicDirectory
+                    (Environment.DIRECTORY_DOWNLOADS)).toString()
+                    + "/" + fileName;
+            downloadFile(txtURL.getText().toString(), imagePath+"/"+fileName);
+            Bitmap bitmap =scaleBitmap(imagePath+"/"+fileName);
+            runOnUiThread(new UpdateBitmap(bitmap));
+        }
+        class UpdateBitmap implements Runnable{
+            Bitmap bitmap;
+
+            public UpdateBitmap(Bitmap bitmap) {
+                this.bitmap = bitmap;
+            }
+
+            @Override
+            public void run() {
+                imgView.setImageBitmap(bitmap);
+            }
+        }
+    }
 }

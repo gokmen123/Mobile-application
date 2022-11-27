@@ -3,9 +3,10 @@ package com.example.midtermproject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User implements Parcelable {
+public class User implements Serializable {
     private String username, password, name, surname, dateOfBirth, education, phoneNo, email, sex;
     private boolean rememberMe;
     private ArrayList<Blog> userBlog;
@@ -27,49 +28,10 @@ public class User implements Parcelable {
         this.rememberMe=rememberMe;
     }
 
-    protected User(Parcel in) {
-        username = in.readString();
-        password = in.readString();
-        name = in.readString();
-        surname = in.readString();
-        dateOfBirth = in.readString();
-        education = in.readString();
-        phoneNo = in.readString();
-        email = in.readString();
-        sex = in.readString();
-        rememberMe = in.readByte() != 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(username);
-        dest.writeString(password);
-        dest.writeString(name);
-        dest.writeString(surname);
-        dest.writeString(dateOfBirth);
-        dest.writeString(education);
-        dest.writeString(phoneNo);
-        dest.writeString(email);
-        dest.writeString(sex);
-        dest.writeByte((byte) (rememberMe ? 1 : 0));
-    }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public ArrayList<Blog> getUserBlog() {
         return userBlog;

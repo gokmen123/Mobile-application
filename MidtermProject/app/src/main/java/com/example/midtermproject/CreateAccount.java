@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CreateAccount extends AppCompatActivity implements AddUser {
+public class CreateAccount extends AppCompatActivity {
 
 
     EditText password,passwordAgain,username,email;
-
+    ArrayList<User> user;
 
 
 
@@ -29,13 +29,14 @@ public class CreateAccount extends AppCompatActivity implements AddUser {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_account);
+        setTitle("CREATE ACCOUNT");
         Button btn = findViewById(R.id.createAccountPage);
         password=findViewById(R.id.password);
         passwordAgain=findViewById(R.id.password_again);
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
 
-        ArrayList<User> user= (ArrayList<User>) getIntent().getSerializableExtra("array");
+        user = (ArrayList<User>) getIntent().getSerializableExtra("array");
 
 
 
@@ -44,7 +45,7 @@ public class CreateAccount extends AppCompatActivity implements AddUser {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(passwordNotEqual() && userNameTaken()){
+                if(checkConditions()){
                     Intent intent = new Intent();
                     String usernames=username.getText().toString();
                     String emails=email.getText().toString();
@@ -62,8 +63,8 @@ public class CreateAccount extends AppCompatActivity implements AddUser {
         });
     }
 
-    @Override
-    public boolean passwordNotEqual() {
+    public boolean checkConditions() {
+        user= (ArrayList<User>) getIntent().getSerializableExtra("array");
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
@@ -80,16 +81,24 @@ public class CreateAccount extends AppCompatActivity implements AddUser {
             Toast.makeText(getApplicationContext(),"Email cannot be empty!",Toast.LENGTH_SHORT).show();
             return false;
         }
+        if(TextUtils.isEmpty(password.getText())){
+            Toast.makeText(getApplicationContext(),"Password cannot be empty",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(user.size()!=0){
+            for(int i=0;i<user.size();i++){
+                if(TextUtils.equals(user.get(i).getUsername(),username.getText())){
+                    Toast.makeText(getApplicationContext(),"Username already taken!",Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
 
 
-    @Override
-    public boolean userNameTaken() {
 
-        return true;
-    }
 
 
 }

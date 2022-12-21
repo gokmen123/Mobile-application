@@ -2,63 +2,84 @@ package com.example.midtermproject;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreateBlogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CreateBlogFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CreateBlogFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateBlogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CreateBlogFragment newInstance(String param1, String param2) {
-        CreateBlogFragment fragment = new CreateBlogFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    View view;
+    EditText title,thoughts;
+    TextView author,date;
+    FirebaseFirestore firestore= FirebaseFirestore.getInstance();
+    Button create;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        String username= getArguments().getString("activeUser");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_blog, container, false);
+//        int leng = firestore.collection("Users").document(username).get().getResult().getString("userBlog").length();
+        Date dates = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String newDate = simpleDateFormat.format(dates);
+
+        view=inflater.inflate(R.layout.fragment_create_blog, container, false);
+        title=view.findViewById(R.id.title_createBlog);
+        thoughts=view.findViewById(R.id.thoughts_createBlog);
+
+        author=view.findViewById(R.id.author_createBlog);
+        date=view.findViewById(R.id.date_createBlog);
+        create=view.findViewById(R.id.createBlog);
+        author.setText(username);
+        date.setText(newDate);
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Blog blog = new Blog(0,0,0,username,newDate.toString(),thoughts.getText().toString(),
+                        title.getText().toString(),username);
+
+                firestore.collection("Blog").add(blog).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Toast.makeText(getContext(), "Blog Succesfully created", Toast.LENGTH_SHORT).show();
+                        title.setText("");
+                        thoughts.setText("");
+                    }
+                });
+
+
+            }
+        });
+
+
+        return view;
+    }
+    public boolean check(){
+        if(TextUtils.isEmpty(title.getText().toString()) || TextUtils.isEmpty(thoughts.getText().toString()) ){
+            Toast.makeText(getContext(), "Title or Thoughts cannot be empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

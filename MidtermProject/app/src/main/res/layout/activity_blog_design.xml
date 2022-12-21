@@ -7,7 +7,7 @@
     android:layout_margin="20dp"
     android:layout_weight="1"
     android:orientation="vertical"
-    tools:context=".BlogDesign">
+    tools:context="com.example.midtermproject.BlogDesign">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/home"
+                android:src="@drawable/homenew"
                 android:scaleType="fitCenter"
                 android:background="@color/white"/>
             <ImageButton
@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/createblog"
+                android:src="@drawable/creates"
                 android:scaleType="fitCenter"
                 android:background="@color/white"/>
             <ImageButton

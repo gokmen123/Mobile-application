@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
-public class BlogDesign extends AppCompatActivity implements EditProfile.EditingProfile {
+public class BlogDesign extends AppCompatActivity  {
 
     ImageButton img;
     User activeUser;
@@ -28,14 +28,23 @@ public class BlogDesign extends AppCompatActivity implements EditProfile.Editing
         home=findViewById(R.id.homeButton);
         profile=findViewById(R.id.profileButton);
         logout=findViewById(R.id.logoutButton);
+        editprofile= findViewById(R.id.edidProfile);
         createBlog=findViewById(R.id.createBlogButton);
-        activeUser= (User) getIntent().getSerializableExtra("activeUser");
+        String name=getIntent().getStringExtra("username");
         replaceFragment(new HomeScreen());
+
+
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new HomeScreen());
+                HomeScreen homeScreen = new HomeScreen();
+                replaceFragment(homeScreen);
+                Bundle bundle = new Bundle();
+                bundle.putString("sended",name);
+                homeScreen.setArguments(bundle);
                 changeBackground(home);
+
+
             }
 
 
@@ -46,7 +55,7 @@ public class BlogDesign extends AppCompatActivity implements EditProfile.Editing
                 Profile profile = new Profile();
                 replaceFragment(profile);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("profile",activeUser);
+                bundle.putString("user",name);
                 profile.setArguments(bundle);
 
             }
@@ -57,8 +66,7 @@ public class BlogDesign extends AppCompatActivity implements EditProfile.Editing
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BlogDesign.this,MainActivity.class);
-                intent.putExtra("active",activeUser);
-                setResult(RESULT_OK,intent);
+
                 finish();
             }
 
@@ -67,21 +75,26 @@ public class BlogDesign extends AppCompatActivity implements EditProfile.Editing
         createBlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new CreateBlogFragment());
+                CreateBlogFragment createBlogFragment= new CreateBlogFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("activeUser",name);
+                createBlogFragment.setArguments(bundle);
+                replaceFragment(createBlogFragment);
                 changeBackground(createBlog);
             }
 
 
         });
-        editprofile= findViewById(R.id.edidProfile);
+
         editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditProfile editProfiles = new EditProfile();
+                EditProfile editprofiles = new EditProfile();
+                replaceFragment(editprofiles);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("profile_edit",activeUser);
-                editProfiles.setArguments(bundle);
-                replaceFragment(editProfiles);
+                bundle.putString("prof",name);
+                editprofiles.setArguments(bundle);
+
             }
         });
 
@@ -96,18 +109,8 @@ public class BlogDesign extends AppCompatActivity implements EditProfile.Editing
 
     }
     public void changeBackground(ImageButton button){
-//        button.setBackgroundColor(getResources().getColor(R.color.teal_700));
+       button.setBackgroundColor(getResources().getColor(androidx.cardview.R.color.cardview_shadow_start_color));
     }
 
-    @Override
-    public void updateView(String name, String surname, String dateOfBirth, String education, String email, String gender, String phoneNo) {
-        activeUser.setName(name);
-        activeUser.setSurname(surname);
-        activeUser.setDateOfBirth(dateOfBirth);
-        activeUser.setEmail(email);
-        activeUser.setEducation(education);
-        activeUser.setSex(gender);
-        activeUser.setPhoneNo(phoneNo);
-        Log.d("updateView", activeUser.getEducation());
-    }
+
 }

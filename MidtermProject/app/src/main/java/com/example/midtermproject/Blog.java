@@ -3,26 +3,33 @@ package com.example.midtermproject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Blog implements Parcelable {
-
-    private User writer;
+public class Blog  {
+    private  int id;
+    private String writer;
     private int like, dislike;
-    private final int uniqueID;
-    private String date, text, imgURL;
+    private  String uniqueID;
+    private String date, text, title;
+    public Blog(){
 
-    public Blog( int like, int dislike, int uniqueID, String date, String text, String imgURL) {
-
+    }
+    public Blog(int id, int like, int dislike, String  uniqueID, String date, String text, String title,String writer) {
+        this.id=id;
         this.like = like;
         this.dislike = dislike;
         this.uniqueID = uniqueID;
         this.date = date;
         this.text = text;
-        this.imgURL = imgURL;
+        this.title = title;
+        this.writer=writer;
     }
 
+    public String getWriter() {
+        return writer;
+    }
 
-
-
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
 
     public int getLike() {
         return like;
@@ -40,7 +47,7 @@ public class Blog implements Parcelable {
         this.dislike = dislike;
     }
 
-    public int getUniqueID() {
+    public String getUniqueID() {
         return uniqueID;
     }
 
@@ -60,21 +67,13 @@ public class Blog implements Parcelable {
         this.text = text;
     }
 
-    public String getImgURL() {
-        return imgURL;
+    public String getTitle() {
+        return title;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
 }

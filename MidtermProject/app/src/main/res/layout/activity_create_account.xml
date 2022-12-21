@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/blogpic"
 
-    tools:context=".CreateAccount">
+    tools:context="com.example.midtermproject.CreateAccount">
 
     <LinearLayout
         android:layout_margin="10dp"

@@ -13,20 +13,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class EditProfile extends Fragment {
-    private EditingProfile editingProfile;
+
     Button button;
     View view;
     EditText username,name,surname,education,email,gender,phoneNo,date;
-    String password;
-    public interface EditingProfile {
-        void updateView(String name,String surname,String dateOfBirth,String education,String email,String gender,String phoneNo);
-    }
+    String names;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        names= getArguments().getString("prof");
 
         view=inflater.inflate(R.layout.fragment_edit_profile, container, false);
         username=view.findViewById(R.id.username_prof_edit);
@@ -42,33 +49,39 @@ public class EditProfile extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editingProfile.updateView(name.getText().toString(),surname.getText().toString(),date.getText().toString(),education.getText().toString(),
-                        email.getText().toString(),gender.getText().toString(),phoneNo.getText().toString());
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("Users").document(names).update("name",name.getText().toString());
+                db.collection("Users").document(names).update("surname",surname.getText().toString());
+                db.collection("Users").document(names).update("email",email.getText().toString());
+                db.collection("Users").document(names).update("education",education.getText().toString());
+                db.collection("Users").document(names).update("sex",gender.getText().toString());
+                db.collection("Users").document(names).update("phoneNo",phoneNo.getText().toString());
+                db.collection("Users").document(names).update("dateOfBirth",date.getText().toString());
+                Toast.makeText(getContext(), "Successfully Updated!", Toast.LENGTH_SHORT).show();
+
             }
         });
         return view;
     }
     public void getInfo(){
-        User getUser = (User) getArguments().getSerializable("profile_edit");
-        password = getUser.getPassword();
-        username.setText(getUser.getUsername());
-        name.setText(getUser.getName());
-        surname.setText(getUser.getSurname());
-        email.setText(getUser.getEmail());
-        education.setText(getUser.getEducation());
-        gender.setText(getUser.getSex());
-        phoneNo.setText(getUser.getPhoneNo());
-        date.setText(getUser.getDateOfBirth());
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Users").document(names).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                username.setText(task.getResult().getString("username"));
+                name.setText(task.getResult().getString("name"));
+                surname.setText(task.getResult().getString("surname"));
+                email.setText(task.getResult().getString("email"));
+                education.setText(task.getResult().getString("education"));
+                gender.setText(task.getResult().getString("sex"));
+                phoneNo.setText(task.getResult().getString("phoneNo"));
+                date.setText(task.getResult().getString("dateOfBirth"));
+            }
+        });
+
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof EditingProfile){
-            editingProfile= (EditingProfile) context;
-        }
-        else{
-            throw new RuntimeException(context.toString()+"must implement EditingProfile");
-        }
-    }
+
+
 }

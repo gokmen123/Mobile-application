@@ -1,5 +1,6 @@
 package com.example.midtermproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,16 +12,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CreateAccount extends AppCompatActivity {
 
 
     EditText password,passwordAgain,username,email;
-    ArrayList<User> user;
-
+    FirebaseFirestore db;
+    Button btn;
 
 
     @Override
@@ -29,14 +37,25 @@ public class CreateAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_account);
+        db=FirebaseFirestore.getInstance();
+        db.enableNetwork().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(CreateAccount.this, "Network enabled", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(CreateAccount.this, "Network enable failed", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         setTitle("CREATE ACCOUNT");
-        Button btn = findViewById(R.id.createAccountPage);
+        btn= findViewById(R.id.createAccountPage);
         password=findViewById(R.id.password);
         passwordAgain=findViewById(R.id.password_again);
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
 
-        user = (ArrayList<User>) getIntent().getSerializableExtra("array");
+
 
 
 
@@ -45,18 +64,50 @@ public class CreateAccount extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db=FirebaseFirestore.getInstance();
                 if(checkConditions()){
-                    Intent intent = new Intent();
                     String usernames=username.getText().toString();
                     String emails=email.getText().toString();
                     String passwords=password.getText().toString();
                     User newUser = new User(usernames,passwords,"","","",
                             "","",emails,"",new ArrayList<Blog>(),false);
-                    user.add(newUser);
-                    intent.putExtra("arrayChanged",user);
-                    setResult(RESULT_OK,intent);
-                    Toast.makeText(getApplicationContext(),"Account successfully created",Toast.LENGTH_LONG).show();
-                    finish();
+                    db.collection("Users").document(usernames).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.getResult().exists()){
+                                Toast.makeText(getApplicationContext(),"User Already Exist!",Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                db.collection("Users").document(usernames).set(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getApplicationContext(),"Account successfully created",Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"Task is failed",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(),"Task is failed",Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                finish();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(),"User does not exist",Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Conditions false",Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -64,7 +115,6 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     public boolean checkConditions() {
-        user= (ArrayList<User>) getIntent().getSerializableExtra("array");
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
@@ -85,14 +135,11 @@ public class CreateAccount extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Password cannot be empty",Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(user.size()!=0){
-            for(int i=0;i<user.size();i++){
-                if(TextUtils.equals(user.get(i).getUsername(),username.getText())){
-                    Toast.makeText(getApplicationContext(),"Username already taken!",Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-        }
+
+
+
+
+
 
         return true;
     }

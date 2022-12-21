@@ -33,7 +33,7 @@
 
         <EditText
             android:layout_marginTop="10dp"
-            android:id="@+id/username"
+            android:id="@+id/username_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
@@ -43,10 +43,11 @@
             android:hint="Username"
             android:inputType="textPersonName"
             android:textColor="#000000"
+
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/password_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"

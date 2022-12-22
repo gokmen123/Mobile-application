@@ -39,7 +39,7 @@ public class HomeScreen extends Fragment {
     boolean onClicked=false;
 
     ArrayList <Blog> getList;
-
+    TextView textView;
     FirebaseFirestore fb=FirebaseFirestore.getInstance();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

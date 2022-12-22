@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class Profile extends Fragment {
     StorageTask storageTask;
     ImageView imgView;
     Button btn ;
+    TextView textView;
     //1
     View view;
     String names;
@@ -62,6 +64,7 @@ public class Profile extends Fragment {
         names = getArguments().getString("user");
         imgView= view.findViewById(R.id.img_prof);
         btn = view.findViewById(R.id.showBlog);
+
 
 
         new Thread(new Runnable() {

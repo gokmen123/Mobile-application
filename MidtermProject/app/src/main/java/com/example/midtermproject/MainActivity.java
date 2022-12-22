@@ -4,8 +4,11 @@ package com.example.midtermproject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,14 +38,17 @@ public class MainActivity extends AppCompatActivity  {
     TextView title;
     EditText usernames,passwords;
     CheckBox remember ;
-
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         setTitle("WELCOME");
+
 
         TextView sign= findViewById(R.id.createAccount);
 

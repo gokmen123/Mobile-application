@@ -24,10 +24,11 @@
             >
 
             <ImageView
+
                 android:id="@+id/img_prof"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:scaleType="fitXY"
                 android:background="@drawable/custom_input_edit"
@@ -190,7 +191,11 @@
                 android:paddingLeft="10dp"/>
 
         </LinearLayout>
-
+        <Button
+            android:id="@+id/showBlog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show My Blogs"/>
     </LinearLayout>
 
 

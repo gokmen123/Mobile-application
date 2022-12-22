@@ -11,18 +11,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,6 +48,7 @@ public class Profile extends Fragment {
     StorageReference firebaseStorage = FirebaseStorage.getInstance().getReference("uploads/");
     StorageTask storageTask;
     ImageView imgView;
+    Button btn ;
     //1
     View view;
     String names;
@@ -56,6 +61,8 @@ public class Profile extends Fragment {
         view=inflater.inflate(R.layout.fragment_profile, container, false);
         names = getArguments().getString("user");
         imgView= view.findViewById(R.id.img_prof);
+        btn = view.findViewById(R.id.showBlog);
+
 
         new Thread(new Runnable() {
             @Override
@@ -73,7 +80,7 @@ public class Profile extends Fragment {
                                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                             Bitmap bitmap= BitmapFactory.decodeFile(localFile.getAbsolutePath());
                                             imgView.setImageBitmap(bitmap);
-                                            Toast.makeText(getContext(), "Image successfully downloaded", Toast.LENGTH_SHORT).show();
+
 
                                         }
                                     });
@@ -106,6 +113,20 @@ public class Profile extends Fragment {
                         }
                     }).start();
                 }
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyBlogs myBlogs = new MyBlogs();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.blogDesignFrame,myBlogs);
+                fragmentTransaction.commit();
+                Bundle bundle = new Bundle();
+                bundle.putString("bloguser",names);
+                myBlogs.setArguments(bundle);
             }
         });
         //2
@@ -165,15 +186,25 @@ public class Profile extends Fragment {
     }
     private void uploadFile(){
         if(imageUri !=null){
-            StorageReference file = firebaseStorage.child(names +".jpg");
-            db.collection("Users").document(names).update("rememberMe",true);
-            storageTask=file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getContext(), "Image successfully uploaded", Toast.LENGTH_SHORT).show();
+            if(isDetached()){
+                Toast.makeText(getContext(), "Detached before uploading!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                StorageReference file = firebaseStorage.child(names +".jpg");
+                db.collection("Users").document(names).update("rememberMe",true);
+                storageTask=file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getContext(), "Image successfully uploaded", Toast.LENGTH_SHORT).show();
 
-                }
-            });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Detached!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
         else{
             //user didint pick any pic

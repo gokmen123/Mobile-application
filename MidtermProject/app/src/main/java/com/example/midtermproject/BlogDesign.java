@@ -20,6 +20,7 @@ public class BlogDesign extends AppCompatActivity  {
     ImageButton img;
     User activeUser;
     ImageButton home,profile,logout,createBlog,editprofile;
+    Button btn ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class BlogDesign extends AppCompatActivity  {
         editprofile= findViewById(R.id.edidProfile);
         createBlog=findViewById(R.id.createBlogButton);
         String name=getIntent().getStringExtra("username");
+        setTitle("Main Page");
         replaceFragment(new HomeScreen());
 
 
@@ -43,6 +45,7 @@ public class BlogDesign extends AppCompatActivity  {
                 bundle.putString("sended",name);
                 homeScreen.setArguments(bundle);
                 changeBackground(home);
+                setTitle("Main Page");
 
 
             }
@@ -57,6 +60,7 @@ public class BlogDesign extends AppCompatActivity  {
                 Bundle bundle = new Bundle();
                 bundle.putString("user",name);
                 profile.setArguments(bundle);
+                setTitle("Profile");
 
             }
 
@@ -81,6 +85,7 @@ public class BlogDesign extends AppCompatActivity  {
                 createBlogFragment.setArguments(bundle);
                 replaceFragment(createBlogFragment);
                 changeBackground(createBlog);
+                setTitle("Create Blog");
             }
 
 
@@ -94,9 +99,11 @@ public class BlogDesign extends AppCompatActivity  {
                 Bundle bundle = new Bundle();
                 bundle.putString("prof",name);
                 editprofiles.setArguments(bundle);
+                setTitle("Edit Profile");
 
             }
         });
+
 
 
     }

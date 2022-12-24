@@ -11,6 +11,7 @@ public class Upload {
         this.name = name;
         this.imageUri = imageUri;
     }
+
     public Upload(){
 
     }

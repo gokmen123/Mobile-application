@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class CreateAccount extends AppCompatActivity {
     Button btn;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,6 +51,7 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
         setTitle("CREATE ACCOUNT");
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         btn= findViewById(R.id.createAccountPage);
         password=findViewById(R.id.password);
         passwordAgain=findViewById(R.id.password_again);

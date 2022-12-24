@@ -39,17 +39,20 @@ public class HomeScreen extends Fragment {
     boolean onClicked=false;
 
     ArrayList <Blog> getList;
-    TextView textView;
+
     FirebaseFirestore fb=FirebaseFirestore.getInstance();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view =  inflater.inflate(R.layout.fragment_home_screen, container, false);
         recyclerView=view.findViewById(R.id.home_listView);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         getList= new ArrayList<Blog>();
         myAdapter = new MyAdapter(getContext(),getList);
+
 
 
         fb.collection("Blog").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {

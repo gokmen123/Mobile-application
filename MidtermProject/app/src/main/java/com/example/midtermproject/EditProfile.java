@@ -36,7 +36,7 @@ public class EditProfile extends Fragment {
         names= getArguments().getString("prof");
 
         view=inflater.inflate(R.layout.fragment_edit_profile, container, false);
-        username=view.findViewById(R.id.username_prof_edit);
+
         name=view.findViewById(R.id.name_prof_edit);
         surname=view.findViewById(R.id.surname_prof_edit);
         email=view.findViewById(R.id.email_prof_edit);
@@ -45,6 +45,8 @@ public class EditProfile extends Fragment {
         date=view.findViewById(R.id.birthday_prof_edit);
         phoneNo=view.findViewById(R.id.phone_prof_edit);
         getInfo();
+
+
         button = view.findViewById(R.id.save_changes_edit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class EditProfile extends Fragment {
         db.collection("Users").document(names).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                username.setText(task.getResult().getString("username"));
+
                 name.setText(task.getResult().getString("name"));
                 surname.setText(task.getResult().getString("surname"));
                 email.setText(task.getResult().getString("email"));

@@ -6,9 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -33,7 +35,14 @@ public class BlogDesign extends AppCompatActivity  {
         createBlog=findViewById(R.id.createBlogButton);
         String name=getIntent().getStringExtra("username");
         setTitle("Main Page");
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         replaceFragment(new HomeScreen());
+        getWindow().getDecorView().setBackgroundColor(Color.rgb(226, 229, 230));
+        changeBackground(profile);
+        changeBackground(home);
+        changeBackground(logout);
+        changeBackground(createBlog);
+        changeBackground(editprofile);
 
 
         home.setOnClickListener(new View.OnClickListener() {
@@ -44,8 +53,14 @@ public class BlogDesign extends AppCompatActivity  {
                 Bundle bundle = new Bundle();
                 bundle.putString("sended",name);
                 homeScreen.setArguments(bundle);
+                getWindow().getDecorView().setBackgroundColor(Color.rgb(226, 229, 230));
+                changeBackground(profile);
                 changeBackground(home);
+                changeBackground(logout);
+                changeBackground(createBlog);
+                changeBackground(editprofile);
                 setTitle("Main Page");
+
 
 
             }
@@ -55,12 +70,18 @@ public class BlogDesign extends AppCompatActivity  {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Profile profile = new Profile();
-                replaceFragment(profile);
+                Profile profiles = new Profile();
+                replaceFragment(profiles);
                 Bundle bundle = new Bundle();
                 bundle.putString("user",name);
-                profile.setArguments(bundle);
-                setTitle("Profile");
+                profiles.setArguments(bundle);
+                setTitle(name);
+                getWindow().getDecorView().setBackgroundColor(Color.rgb(226, 229, 230));
+                changeBackground(profile);
+                changeBackground(home);
+                changeBackground(logout);
+                changeBackground(createBlog);
+                changeBackground(editprofile);
 
             }
 
@@ -84,7 +105,12 @@ public class BlogDesign extends AppCompatActivity  {
                 bundle.putString("activeUser",name);
                 createBlogFragment.setArguments(bundle);
                 replaceFragment(createBlogFragment);
+                getWindow().getDecorView().setBackgroundColor(Color.rgb(255, 255, 255));
+                changeBackground(profile);
+                changeBackground(home);
+                changeBackground(logout);
                 changeBackground(createBlog);
+                changeBackground(editprofile);
                 setTitle("Create Blog");
             }
 
@@ -101,6 +127,13 @@ public class BlogDesign extends AppCompatActivity  {
                 editprofiles.setArguments(bundle);
                 setTitle("Edit Profile");
 
+                getWindow().getDecorView().setBackgroundColor(Color.rgb(226, 229, 230));
+                changeBackground(profile);
+                changeBackground(home);
+                changeBackground(logout);
+                changeBackground(createBlog);
+                changeBackground(editprofile);
+
             }
         });
 
@@ -116,7 +149,7 @@ public class BlogDesign extends AppCompatActivity  {
 
     }
     public void changeBackground(ImageButton button){
-       button.setBackgroundColor(getResources().getColor(androidx.cardview.R.color.cardview_shadow_start_color));
+       button.setBackgroundColor(getWindow().getDecorView().getSolidColor());
     }
 
 

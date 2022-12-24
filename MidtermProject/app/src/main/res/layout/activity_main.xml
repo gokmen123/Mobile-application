@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:backgroundTintMode="screen"
+    >
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,15 +23,17 @@
             android:layout_weight="1.2"
             android:gravity="center"
             android:text="MY BLOG"
-            android:textColor="#E98D3EBF"
+            android:textColor="#B8446C"
             android:textSize="34dp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:fontFamily="monospace"/>
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2.7"
+            android:scaleType="centerCrop"
             android:src="@drawable/img" />
 
         <EditText
@@ -38,7 +43,7 @@
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:backgroundTint="#C34343"
-            android:gravity="left"
+            android:gravity="left|center_vertical"
 
             android:hint="Username"
             android:inputType="textPersonName"
@@ -52,7 +57,7 @@
             android:layout_height="0dp"
             android:layout_weight="1.2"
             android:ems="10"
-            android:gravity="left"
+            android:gravity="left|center_vertical"
             android:hint="Password"
             android:inputType="textPassword"
              />

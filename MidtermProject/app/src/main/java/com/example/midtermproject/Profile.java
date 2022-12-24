@@ -65,8 +65,6 @@ public class Profile extends Fragment {
         imgView= view.findViewById(R.id.img_prof);
         btn = view.findViewById(R.id.showBlog);
 
-
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -83,8 +81,6 @@ public class Profile extends Fragment {
                                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                             Bitmap bitmap= BitmapFactory.decodeFile(localFile.getAbsolutePath());
                                             imgView.setImageBitmap(bitmap);
-
-
                                         }
                                     });
                                 } catch (IOException e) {
@@ -97,14 +93,12 @@ public class Profile extends Fragment {
             }
         }).start();
 
-        // Set an onClick listener for the ImageView
 
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Launch the image gallery app to select an image in a separate thread
                 if(storageTask != null && storageTask.isInProgress()){
-                    Toast.makeText(getContext(), "Upload is in progress!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "upload in another process", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     new Thread(new Runnable() {
@@ -118,6 +112,7 @@ public class Profile extends Fragment {
                 }
             }
         });
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,10 +129,8 @@ public class Profile extends Fragment {
         });
         //2
 
-
-
         TextView username,name,surname,education,email,gender,phoneNo,birthday;
-        username=view.findViewById(R.id.username_prof);
+
         name=view.findViewById(R.id.name_prof);
         surname=view.findViewById(R.id.surname_prof);
         email=view.findViewById(R.id.email_prof);
@@ -150,7 +143,7 @@ public class Profile extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.getResult().exists()){
-                    username.setText(task.getResult().getString("username"));
+
                     name.setText(task.getResult().getString("name"));
                     surname.setText(task.getResult().getString("surname"));
                     email.setText(task.getResult().getString("email"));
@@ -162,8 +155,6 @@ public class Profile extends Fragment {
             }
         });
 
-
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -173,24 +164,20 @@ public class Profile extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the URI of the selected image
+
             imageUri = data.getData();
 
-            // Set the image for the ImageView using the URI
             ImageView imgView = getView().findViewById(R.id.img_prof);
             uploadFile();
             imgView.setImageURI(imageUri);
         }
     }
-    public String ex(Uri uri){
-        ContentResolver cr = view.getContext().getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return  mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
-    }
+
+
     private void uploadFile(){
         if(imageUri !=null){
             if(isDetached()){
-                Toast.makeText(getContext(), "Detached before uploading!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
             }
             else{
                 StorageReference file = firebaseStorage.child(names +".jpg");
@@ -198,19 +185,16 @@ public class Profile extends Fragment {
                 storageTask=file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(getContext(), "Image successfully uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Image uploaded", Toast.LENGTH_SHORT).show();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Detached!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-        }
-        else{
-            //user didint pick any pic
         }
     }
 

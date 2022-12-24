@@ -48,7 +48,6 @@ public class MyBlogs extends Fragment {
         getActivity().setTitle("My Blogs");
 
 
-
         fb.collection("Blog").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -69,10 +68,6 @@ public class MyBlogs extends Fragment {
         });
         recyclerView.setAdapter(myAdapter);
 
-
-
-
-        // Inflate the layout for this fragment
         return view;
     }
 }

@@ -59,14 +59,19 @@ public class CreateBlogFragment extends Fragment {
                 Blog blog = new Blog(0,0,0,username,newDate.toString(),thoughts.getText().toString(),
                         title.getText().toString(),username);
 
-                firestore.collection("Blog").add(blog).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(getContext(), "Blog Succesfully created", Toast.LENGTH_SHORT).show();
-                        title.setText("");
-                        thoughts.setText("");
-                    }
-                });
+                if(title.getText().toString().equals("") || thoughts.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "No value can be empty!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    firestore.collection("Blog").add(blog).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            Toast.makeText(getContext(), "Blog Succesfully created", Toast.LENGTH_SHORT).show();
+                            title.setText("");
+                            thoughts.setText("");
+                        }
+                    });
+                }
 
 
             }

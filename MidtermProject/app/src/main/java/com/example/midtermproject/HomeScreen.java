@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 
-public class HomeScreen extends Fragment {
+public class HomeScreen extends Fragment implements MyAdapter.ItemClickListener{
     RecyclerView recyclerView;
     MyAdapter myAdapter;
     ImageButton img;
@@ -51,7 +53,7 @@ public class HomeScreen extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         getList= new ArrayList<Blog>();
-        myAdapter = new MyAdapter(getContext(),getList);
+        myAdapter = new MyAdapter(getContext(),getList,this::onItemClick);
 
 
 
@@ -90,5 +92,20 @@ public class HomeScreen extends Fragment {
             img.setBackgroundResource(R.drawable.like);
         }
 
+    }
+
+    @Override
+    public void onItemClick(Blog list) {
+        longPharagraphs longS= new longPharagraphs();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.blogDesignFrame,longS);
+        fragmentTransaction.commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("longtitle",list.getTitle());
+        bundle.putString("longthoughts",list.getText());
+        bundle.putString("longauthor",list.getWriter());
+        longS.setArguments(bundle);
     }
 }

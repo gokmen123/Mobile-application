@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/drawable/border.xml" value="0.2495" />
+        <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/drawable/bottom_border.xml" value="0.221" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/drawable/btn_change.xml" value="0.113" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/drawable/buttons.xml" value="0.1" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/drawable/circle.xml" value="0.202" />
@@ -19,6 +20,7 @@
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/fragment_create_blog.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/fragment_home_screen.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/fragment_long_pharagraphs.xml" value="0.25" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/fragment_my_blogs.xml" value="0.25" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/aliyu/AndroidStudioProjects/MidtermProject/app/src/main/res/layout/listview_blog.xml" value="0.25" />

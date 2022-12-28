@@ -3,10 +3,9 @@ package com.example.midtermproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,13 +15,13 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CreateAccount extends AppCompatActivity {
 
@@ -30,7 +29,6 @@ public class CreateAccount extends AppCompatActivity {
     EditText password,passwordAgain,username,email;
     FirebaseFirestore db;
     Button btn;
-
 
 
     @Override
@@ -50,6 +48,8 @@ public class CreateAccount extends AppCompatActivity {
                 }
             }
         });
+
+
         setTitle("CREATE ACCOUNT");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         btn= findViewById(R.id.createAccountPage);
@@ -57,11 +57,6 @@ public class CreateAccount extends AppCompatActivity {
         passwordAgain=findViewById(R.id.password_again);
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
-
-
-
-
-
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -106,24 +101,25 @@ public class CreateAccount extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"User does not exist",Toast.LENGTH_LONG).show();
                         }
                     });
-
-
                 }
-                else{
-                    Toast.makeText(getApplicationContext(),"Conditions false",Toast.LENGTH_LONG).show();
-                }
-
             }
         });
     }
+
+
 
     public boolean checkConditions() {
         username=findViewById(R.id.username);
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
         passwordAgain=findViewById(R.id.password_again);
-        if(!password.getText().toString().equals(passwordAgain.getText().toString())){
-            Toast.makeText(getApplicationContext(),"Passwords are not Equal",Toast.LENGTH_SHORT).show();
+
+        if(!PasswordValidator.validate(password.getText().toString())){
+            Toast.makeText(getApplicationContext(),"Please use one [0-9], [a-z], [A-Z] and at least 8 char!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!PasswordValidator.matching(password.getText().toString(),passwordAgain.getText().toString())) {
+            Toast.makeText(getApplicationContext(),"Passwords does not match!",Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(username.getText())){
@@ -138,17 +134,7 @@ public class CreateAccount extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Password cannot be empty",Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
-
-
-
-
         return true;
     }
-
-
-
-
 
 }

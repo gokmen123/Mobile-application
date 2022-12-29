@@ -3,7 +3,10 @@ package com.example.midtermproject;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,11 +27,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 
-public class MyBlogs extends Fragment {
+public class MyBlogs extends Fragment  implements MyBlogAdapter.ItemClickListener{
 
     RecyclerView recyclerView;
     MyBlogAdapter myAdapter;
-    ImageButton img;
     ArrayList<Blog> myList;
 
     FirebaseFirestore fb=FirebaseFirestore.getInstance();
@@ -38,13 +40,14 @@ public class MyBlogs extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view=inflater.inflate(R.layout.fragment_my_blogs, container, false);
         recyclerView=view.findViewById(R.id.myBlogListView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         myList= new ArrayList<Blog>();
         names=getArguments().getString("bloguser");
-        myAdapter = new MyBlogAdapter(getContext(),myList);
+        myAdapter = new MyBlogAdapter(getContext(),myList,this::onItemClick);
         getActivity().setTitle("My Blogs");
 
 
@@ -69,5 +72,19 @@ public class MyBlogs extends Fragment {
         recyclerView.setAdapter(myAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onItemClick(Blog list) {
+        longPharagraphs longS= new longPharagraphs();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.blogDesignFrame,longS);
+        fragmentTransaction.commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("longtitle",list.getTitle());
+        bundle.putString("longthoughts",list.getText());
+        bundle.putString("longauthor",list.getWriter());
+        longS.setArguments(bundle);
     }
 }

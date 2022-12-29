@@ -47,7 +47,8 @@
             android:layout_weight="1"
             android:layout_marginTop="10dp">
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:background="@drawable/custom_input_edit"
                 android:id="@+id/name_prof"
@@ -68,7 +69,8 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:background="@drawable/custom_input_edit"
                 android:id="@+id/surname_prof"
@@ -89,7 +91,8 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:background="@drawable/custom_input_edit"
                 android:id="@+id/birthday_prof"
@@ -110,7 +113,8 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:id="@+id/education_prof"
                 android:layout_width="0dp"
@@ -130,7 +134,8 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:id="@+id/email_prof"
                 android:layout_width="0dp"
@@ -151,7 +156,8 @@
             >
 
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:id="@+id/gender_prof"
                 android:layout_width="0dp"
@@ -171,7 +177,8 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:textColor="#5E130F"
+
+                android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:id="@+id/phone_prof"
                 android:layout_width="0dp"

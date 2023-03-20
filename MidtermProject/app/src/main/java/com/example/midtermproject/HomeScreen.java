@@ -50,7 +50,7 @@ public class HomeScreen extends Fragment implements MyAdapter.ItemClickListener{
         myAdapter = new MyAdapter(getContext(),getList,this::onItemClick);
 
 
-        fb.collection("Blog").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        fb.collection("Blog").orderBy("date", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error !=null){

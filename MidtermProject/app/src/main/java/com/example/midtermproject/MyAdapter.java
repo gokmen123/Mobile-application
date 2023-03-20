@@ -59,7 +59,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
-                    if(task.getResult().getBoolean("rememberMe")== true){
+                    if(true){
                         try {
                             File localFile = File.createTempFile("temp",".jpg");
                             StorageReference st = FirebaseStorage.getInstance().getReference("uploads/"+blog.getWriter()+".jpg");

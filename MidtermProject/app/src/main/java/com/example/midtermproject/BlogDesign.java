@@ -34,7 +34,7 @@ import com.google.firebase.firestore.auth.FirebaseAuthCredentialsProvider;
 
 import java.util.ArrayList;
 
-public class BlogDesign extends AppCompatActivity  {
+public class  BlogDesign extends AppCompatActivity  {
 
     ImageButton home,profile,logout,createBlog,editprofile;
 
@@ -164,8 +164,10 @@ public class BlogDesign extends AppCompatActivity  {
     }
 
     public void replaceFragment(Fragment fragment) {
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         fragmentTransaction.replace(R.id.blogDesignFrame,fragment);
         fragmentTransaction.commit();
     }
